@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - SUDAI Youth Wing Camp 2025</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Admin Panel</h2>
+        <p>Generate a new registration PIN for a delegate.</p>
+
+        <label for="adminKey">Admin Key:</label>
+        <input type="password" id="adminKey" placeholder="Enter Admin Key" required>
+
+        <label for="phone">Delegate Phone Number:</label>
+        <input type="tel" id="phone" placeholder="Enter Delegate Phone Number" required>
+
+        <button id="btn-generate" onclick="generatePin()">Generate PIN</button>
+
+        <div id="result" class="result" style="display: none;"></div>
+        <div style="text-align:center; margin-top: 20px;">
+            <a href="/index.html">Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        async function generatePin() {
+            const resultDiv = document.getElementById('result');
+            const adminKey = document.getElementById('adminKey').value;
+            const phone = document.getElementById('phone').value;
+
+            // Basic validation
+            if (!adminKey || !phone) {
+                showResult('Admin Key and Phone Number are required.', 'error');
+                return;
+            }
+
+            showResult('Generating PIN...', 'pending');
+
+            try {
+                const response = await fetch('/api/generate-pin', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ phone, adminKey }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showResult(`Generated PIN: ${data.pin}`, 'success');
+                } else {
+                    showResult(`Error: ${data.message}`, 'error');
+                }
+            } catch (error) {
+                console.error('Failed to generate PIN:', error);
+                showResult('An unexpected error occurred. Check the console.', 'error');
+            }
+        }
+
+        function showResult(message, type) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = message;
+            resultDiv.className = `result ${type}`;
+            resultDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>

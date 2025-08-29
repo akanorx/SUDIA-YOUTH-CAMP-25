@@ -1,72 +1,54 @@
-# SUDAI Youth Wing Camp 2025 - Registration App
+# Registration Web Application (Node.js Version)
 
-This is a Google Apps Script web application for managing delegate registration for the SUDAI Youth Wing Camp 2025.
+This is a self-contained web application for managing delegate registrations using a PIN-based system. This version runs on Node.js and does not require any Google services.
 
-## How to Set Up and Deploy
+## How to Run This Application
 
-Follow these steps carefully to get the application running.
+To get this application running on your local computer, you will need to have Node.js installed.
 
-### Step 1: Set Up Your Google Sheet
+### Step 1: Install Node.js
 
-1.  Create a new Google Sheet in your Google Drive. You can name it "SUDAI Camp Registration 2025".
-2.  This sheet will act as your database. It needs two tabs (sheets) at the bottom. Rename them exactly as follows:
-    *   `Pins`
-    *   `Registrations`
+If you don't already have Node.js, download and install it from the official website:
+[https://nodejs.org/](https://nodejs.org/)
 
-3.  **Set up the `Pins` sheet:**
-    *   In the first row, create the following headers in cells A1, B1, C1, and D1:
-    *   `Phone`
-    *   `PIN`
-    *   `Date Generated`
-    *   `Used?`
+Download the **LTS** version, which is recommended for most users. Run the installer and follow the on-screen instructions.
 
-4.  **Set up the `Registrations` sheet:**
-    *   In the first row, create the following headers from cell A1 to J1:
-    *   `Name`
-    *   `Phone`
-    *   `PIN`
-    *   `Gender`
-    *   `Address`
-    *   `Zone`
-    *   `Branch`
-    *   `Status`
-    *   `Email`
-    *   `Timestamp`
+### Step 2: Set Up the Project
 
-### Step 2: Create the Google Apps Script Project
-
-1.  With your Google Sheet open, go to the menu and click `Extensions` > `Apps Script`.
-2.  This will open a new Apps Script project that is linked to your sheet.
-3.  You will see a default `Code.gs` file. Delete the content inside it.
-4.  You will also see some other files. You can delete them by clicking the three dots next to the file name and selecting `Delete`.
-5.  I have already prepared the code for you. You will need to copy the contents of the files I provide into your Apps Script project.
-    *   Copy the contents of `Code.gs` into the `Code.gs` file in your project.
-    *   Click the `+` icon in the `Files` sidebar and choose `HTML` to create a new HTML file. Name it `index.html` (make sure to include the `.html` extension if prompted). Copy the contents of the `index.html` file I provided into it.
-    *   Repeat this process to create `admin.html` and `register.html`, copying the corresponding file contents.
+1.  Open your computer's terminal or command prompt.
+2.  Navigate to the directory where you have saved this project's files.
+3.  Once you are in the correct directory, run the following command to install the necessary libraries (like Express.js) that are listed in the `package.json` file:
+    ```bash
+    npm install
+    ```
+    This will create a `node_modules` folder in your project directory.
 
 ### Step 3: Set Your Admin Key
 
-For the admin panel to work, you need to set a secret key that prevents unauthorized users from generating PINs.
+You need to set a secret key to prevent unauthorized users from generating PINs.
 
-1.  In the Apps Script editor, click on the `Project Settings` (gear icon) on the left sidebar.
-2.  Scroll down to the `Script Properties` section and click `Add script property`.
-3.  In the `Property` field, enter `ADMIN_KEY` (it must be exactly this name).
-4.  In the `Value` field, enter a secret password or key that you will use on the admin page. For example: `MySecretAdminKey123`.
-5.  Click `Save script properties`.
+1.  This application looks for an environment variable named `ADMIN_KEY`. You can set it when you run the server. See the next step.
 
-### Step 4: Deploy the Web App
+### Step 4: Run the Application
 
-The final step is to publish your script as a web app that people can visit.
+1.  To start the server, run the following command in your terminal. Replace `YourSecretKey123` with the actual secret key you want to use.
 
-1.  At the top right of the Apps Script editor, click the `Deploy` button and select `New deployment`.
-2.  Click the `Select type` (gear icon) on the left and choose `Web app`.
-3.  In the `Description` field, you can add a note, like "Initial version".
-4.  For `Execute as`, select `Me (your-email@gmail.com)`.
-5.  For `Who has access`, select `Anyone`. **This is important!** It means anyone with the link can view the registration form. It does not mean anyone can see your data.
-6.  Click `Deploy`.
-7.  Google will ask you to `Authorize access`. Click the button and follow the prompts to grant the script permission to access your Google Sheet.
-    *   You might see a "Google hasn't verified this app" warning. This is normal for personal scripts. Click `Advanced`, and then click `Go to <Your Project Name> (unsafe)`.
-    *   Review the permissions and click `Allow`.
-8.  After authorizing, a `Deployment successful` window will appear with your **Web app URL**. Copy this URL.
+    **On macOS and Linux:**
+    ```bash
+    ADMIN_KEY=YourSecretKey123 npm start
+    ```
 
-This URL is the public link to your registration application! You can share it with others. The links for the admin and register pages will work from this main URL.
+    **On Windows (Command Prompt):**
+    ```bash
+    set ADMIN_KEY=YourSecretKey123 && npm start
+    ```
+
+    **On Windows (PowerShell):**
+    ```bash
+    $env:ADMIN_KEY="YourSecretKey123"; npm start
+    ```
+
+2.  If it starts successfully, you will see the message: `Server is running on http://localhost:3000`.
+3.  Open your web browser and go to **http://localhost:3000**. You should see the welcome page of your application!
+
+The "Admin Panel" and "Register" links will take you to the correct pages, and the application is now running entirely on your machine. To stop the server, go back to your terminal and press `Ctrl + C`.

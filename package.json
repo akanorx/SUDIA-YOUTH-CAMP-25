@@ -1,0 +1,16 @@
+{
+  "name": "registration-app",
+  "version": "1.0.0",
+  "description": "A simple PIN-based registration web application.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jules for User",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "uuid": "^9.0.0"
+  }
+}
